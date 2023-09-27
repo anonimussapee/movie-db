@@ -1,18 +1,20 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { routesList } from '../../Components/Context'
+import { ContextMovieProvided, routesList } from '../../Components/Context'
 import { NavBar } from '../../Components/NavBar'
-
+import './App.css'
 
 function App() {
 
   return (
     <BrowserRouter>
-      <NavBar/>
-      <Routes>
-        {routesList.map((route, index) => {
-          return (<Route key={index} path={route.path} element={route.renderElement} > {route.nesting.nest && (<Route path={route.nesting?.path} element={route.nesting?.renderElement} />)}</Route>)
-        })}
-      </Routes>
+      <ContextMovieProvided>
+        <NavBar/>
+        <Routes>
+          {routesList.map((route, index) => {
+            return (<Route key={index} path={route.path} element={route.renderElement} > {route.nesting.nest && route.nesting.list.map((routeItem, index)=>(<Route key={index+'nest'} path={routeItem.path} element={routeItem.renderElement} />))}</Route>)
+          })}
+        </Routes>
+      </ContextMovieProvided>
     </BrowserRouter>
   )
 }

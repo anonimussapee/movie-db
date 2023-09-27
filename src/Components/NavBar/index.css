@@ -1,0 +1,8 @@
+.navSide{
+  left: -320px;
+  transition: ease .7s;
+}
+.navSide.Active{
+  left: 0;
+}
+
