@@ -15,36 +15,73 @@ const routesList = [
 const ContextMovie = createContext()
 
 const ContextMovieProvided = ({children}) => {
-  const [movieDb, setMovieDb] = useState(null)
+  const [movieDbTrend, setMovieDbTrend] = useState(null)
+  const [trendQuery,setTrendQuery] = useState({today: true, week: false})
+  const [movieDbUpcomming, setMovieDbUpcomming] = useState(null)
+  const [loadTrend, setLoadTrend] = useState(false)
+  const [loadUpc, setLoadUpc] = useState(false)
 
+
+
+  const API_KEY = import.meta.env.VITE_API_KEY
+
+  // este useeffect es para tendencias
   useEffect(()=>{
 
-    try{ const url = 'https://api.themoviedb.org/3/movie/changes';
+    try{ const url = `https://api.themoviedb.org/3/trending/movie/${trendQuery.today ? 'day' : 'week'}`;
       const options = {
         method: 'GET',
         headers: {
           accept: 'application/json',
-          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMDJhMTA5NjhhNGQ4NjBiNjYxMmMxYmFjYjJkMDYzOCIsInN1YiI6IjY1MDgyMTU4Mzk0YTg3MDBlMjI2ZWM1MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.EEPACz8jEl2hKB7tm54QvQ04DZhzHZhd67YuMZZwRlk'
+          Authorization: `${API_KEY}`
         }
       };
       fetch(url, options)
         .then(res => res.json())
-        .then(json => {console.log(json), setMovieDb(json)})
+        .then(json => {
+          setMovieDbTrend(json)
+          setLoadTrend(true)
+        })
+        .catch(err => console.error('error:' + err));}
+    catch (error){
+        console.log(error, 'no se hizo la fetch bro')
+      }
+  },[trendQuery])
+  
+  // este useEffect es para avances de peliculas trailers
+
+  useEffect(()=>{
+
+      
+    try{ const url = `https://api.themoviedb.org/3/movie/upcoming`;
+      const options = {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          Authorization: `${API_KEY}`
+        }
+      };
+      fetch(url, options)
+        .then(res => res.json())
+        .then(json => {
+          console.log(json)
+          setMovieDbUpcomming(json)
+          setLoadUpc(true)
+        })
         .catch(err => console.error('error:' + err));}
     catch (error){
         console.log(error, 'no se hizo la fetch bro')
       }
   },[])
-
   return (
-    <ContextMovie.Provider value={{movieDb}}>
+    <ContextMovie.Provider value={{movieDbTrend, loadTrend, loadUpc, setTrendQuery, trendQuery, movieDbUpcomming}}>
       {children}
     </ContextMovie.Provider>
   )
 } 
 
 const useMovieContext = () =>{
-  const {movieDb}= useContext(ContextMovie)
-  return {movieDb}
+  const {movieDbTrend, loadTrend, loadUpc , setTrendQuery, trendQuery, movieDbUpcomming}= useContext(ContextMovie)
+  return {movieDbTrend, loadTrend, loadUpc, setTrendQuery, trendQuery, movieDbUpcomming}
 }
 export {routesList, ContextMovieProvided, useMovieContext}

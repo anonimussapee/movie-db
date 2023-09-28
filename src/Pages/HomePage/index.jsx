@@ -2,15 +2,25 @@ import { useState } from 'react'
 import { Layout, LayoutW90 } from '../../Components/Layout'
 import './index.css'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import { MovieCard } from '../../Components/MovieCard'
+import { useMovieContext } from '../../Components/Context'
 
 const HomePage = () => {
 
+  const useMovie = useMovieContext()
   const [searchValue, setSearchValue] = useState('')
   const [opList, setOpList] = useState({tendencias:false, popular:false})
-  console.log(opList)
+
+
+  
   const handleSubmit = (e) => {
     e.preventDefault()
   }
+
+  const handleTrendOpen = () => {
+    setOpList({...opList, tendencias:!opList.tendencias})
+  }
+
   return (
     <Layout>
       <div className='w-[100%] h-[360px] relative '>
@@ -27,15 +37,43 @@ const HomePage = () => {
           </form>
        </div>
       </div>
+      {/* lista de tendencia */}
       <LayoutW90>
-        <div className='flex gap-5 mt-2  z-10'>
-          <h2 className='text-[24px]'>Tendencias</h2>
-          <div className={`w-auto  ${opList.tendencias ? ' h-auto ' : 'h-[36px]'} rounded-xl bg-[#26dee1] border-[1px] border-[#144552]  overflow-hidden`}>
-            <h3 className='bg-[#144552] text-[#26dee1] p-1 px-3 font-semibold rounded-xl' onClick={()=>setOpList({...opList, tendencias:!opList.tendencias})}>Hoy <ChevronDownIcon className='w-6 h-6 text-white inline'/></h3>
-            <h3 className='bg-[#26dee1] text-[#144552] p-1 px-3 font-semibold'>Esta semana</h3>
+        <div className='w-full h-12 mt-2  z-10 relative'>
+          <div className='absolute flex gap-5  '>
+            <h2 className='text-[24px]  '>Tendencias</h2>
+            <div className={`w-[150px]  ${opList.tendencias ? ' h-auto ' : 'h-[36px]'} rounded-xl bg-[#26dee1] border-[1px] border-[#144552]  overflow-hidden ` }>
+              {(useMovie.trendQuery.today && 
+              (
+              <>
+                <h3 className='bg-[#144552] text-[#26dee1] p-1 px-3 font-semibold rounded-xl' onClick={handleTrendOpen}>Hoy <ChevronDownIcon className='w-6 h-6 text-white inline'/></h3>
+                <h3 className='bg-[#26dee1] text-[#144552] p-1 px-3 font-semibold' onClick={()=>{useMovie.setTrendQuery({day: false , week: true })}}>Esta semana</h3>
+              </>
+              ) ) || ( useMovie.trendQuery.week && (
+              <>
+                <h3 className='bg-[#144552] text-[#26dee1] p-1 px-3 font-semibold rounded-xl' onClick={handleTrendOpen}>Esta semana <ChevronDownIcon className='w-6 h-6 text-white inline'/></h3>
+                <h3 className='bg-[#26dee1] text-[#144552] p-1 px-3 font-semibold ' onClick={()=>{useMovie.setTrendQuery({day: true , week: false })}}>Hoy</h3>
+              </>
+              )) }
+
+            </div>
           </div>
 
         </div>
+        <div className='w-[100%] h-auto scroll-x-container flex gap-3 '>
+          {useMovie.loadTrend && useMovie.movieDbTrend?.results.map(movie =>{
+            return <MovieCard key={movie.id} movie={movie}/>
+          })}
+        </div>
+      </LayoutW90>
+      {/* lista de ultimos avances trailers */}
+      <LayoutW90>
+      <h2 className='text-[24px]  '>Estrenos</h2>        
+        <div className='w-[100%]  scroll-x-container flex gap-3 '>
+          {useMovie.loadUpc && useMovie.movieDbUpcomming?.results.map(movie =>{
+            return <MovieCard key={movie.id} movie={movie}/>
+          })}
+        </div>  
       </LayoutW90>
     </Layout>
   )

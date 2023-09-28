@@ -3,3 +3,9 @@
   width: 100%;
   height: 360px;
 }
+.scroll-x-container{
+  overflow-x: scroll;
+  scroll-snap-type: proximity;
+  overscroll-behavior-x: contain ;
+  scroll-snap-type: x proximity;
+}

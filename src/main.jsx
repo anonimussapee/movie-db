@@ -1,8 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
-import { App } from './Pages/App/App'
+import { App } from './Pages/App/App.jsx'
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-    <App />,
-)
+ReactDOM.createRoot(document.getElementById('root')).render(<App />)
