@@ -11,7 +11,7 @@ const NavBar = () => {
   const [openBar, setOpenBar] = useState (false)
 
   return (
-    <nav className='w-full h-[64px] bg-[#144552] flex items-center px-5 text-white justify-between fixed top-0 left-0'>
+    <nav className='w-full h-[64px] bg-[#144552] flex items-center px-5 text-white justify-between fixed top-0 z-40'>
       <ul className='flex gap-10  h-[inherit] items-center'>
         <li onClick={()=>setOpenBar(!openBar)}>
           <Bars3Icon className='w-6 xlMin:hidden'/>
@@ -31,7 +31,7 @@ const NavBar = () => {
           <MagnifyingGlassIcon className='w-6 text-[#26dee1]'/>
         </li>
       </ul>
-      <ul className={`navSide flex flex-col gap-4 w-[320px] lgMax:visible xlMin:hidden fixed top-[64px] bottom-0 ${openBar ? 'Active':''}  bg-[#144552]  p-5 z-50`} >
+      <ul className={`navSide flex flex-col gap-4 w-[320px] lgMax:visible xlMin:hidden fixed top-[64px] bottom-0 ${openBar ? 'Active':''}  bg-[#144552]  p-5 z-10`} >
         {routesList.map((route, index)=>{
           
           if(!listRendered[route.title]){
