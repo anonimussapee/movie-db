@@ -7,13 +7,14 @@ const Layout = ({children}) => {
   )
 } 
 
-const LayoutW90 = ({children}) => {
+const LayoutW90 = ({children, optionalClass}) => {
   
   return (
-    <div className='w-[90%] mx-auto  min-w-[320px] max-w-[900px] flex flex-col justify-center items-center relative'>
+    <section className={`w-[90%] mx-auto  min-w-[320px] max-w-[1000px] flex flex-col justify-center items-center relative ${optionalClass} `}>
       {children}
-    </div>
+    </section>
   )
 } 
+
 
 export {Layout, LayoutW90}

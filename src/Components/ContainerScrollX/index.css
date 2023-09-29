@@ -1,0 +1,3 @@
+.ContainerScrollX::-webkit-scrollbar{
+  display: none;
+}
