@@ -1,13 +1,13 @@
-import { Outlet } from 'react-router-dom'
 import { HomePage } from '../../Pages/HomePage'
 import { createContext, useContext, useEffect, useState } from 'react'
+import { MoviePage, MovieData } from '../../Pages/MoviePage'
 
 
 const routesList = [
   {path: '/', title: 'Home' , renderElement : (<HomePage/>) , private: false, nesting:{nest:false,} },
   {path:'/home', title: 'Home' , renderElement : (<HomePage/>) , private: false, nesting:{nest:false,}  },
-  {path:'/movie', title: 'Peliculas' , renderElement : (<div>popularPage<Outlet/></div>) , private: false, nesting:{nest:true, list:[
-    {path:'s', title: 'popular' , renderElement : (<p>popular jhdsbhjsb</p>) , private: false,},
+  {path:'/movie', title: 'Peliculas' , renderElement : (<MoviePage/>) , private: false, nesting:{nest:true, list:[
+    {path:':movieId', title: 'movie' , renderElement : (<MovieData/>) , private: false,},
   ],}  },
   
 ]
@@ -80,41 +80,42 @@ const ContextMovieProvided = ({children}) => {
       }
   },[])
 
-    // este useEffect es para peliculas populares
+  // este useEffect es para peliculas populares
 
-    useEffect(()=>{
+  useEffect(()=>{
 
-      
-      try{ const url = `https://api.themoviedb.org/3/movie/popular?language=es-ES&page=1`;
-        const options = {
-          method: 'GET',
-          headers: {
-            accept: 'application/json',
-            Authorization: `${API_KEY}`
-          }
-        };
-        fetch(url, options)
-          .then(res => res.json())
-          .then(json => {
-            setMoviePopular(json)
-            setLoadPopular(true)
-          })
-          .catch(err => console.error('error:' + err));}
-      catch (error){
-          console.log(error, 'no se hizo la fetch movie popular bro')
+    
+    try{ const url = `https://api.themoviedb.org/3/movie/popular?language=es-ES&page=1`;
+      const options = {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          Authorization: `${API_KEY}`
         }
-    },[])
+      };
+      fetch(url, options)
+        .then(res => res.json())
+        .then(json => {
+          setMoviePopular(json)
+          setLoadPopular(true)
+        })
+        .catch(err => console.error('error:' + err));}
+    catch (error){
+        console.log(error, 'no se hizo la fetch movie popular bro')
+      }
+  },[])
+
 
   return (
-    <ContextMovie.Provider value={{movieDbTrend, loadTrend, setLoadTrend, loadUpc, setTrendQuery, trendQuery, movieDbUpcomming, moviePopular ,loadPopular}}>
+    <ContextMovie.Provider value={{movieDbTrend, loadTrend, setLoadTrend, loadUpc, setTrendQuery, trendQuery, movieDbUpcomming, moviePopular ,loadPopular, API_KEY}}>
       {children}
     </ContextMovie.Provider>
   )
 } 
 
 const useMovieContext = () =>{
-  const {movieDbTrend, loadTrend, setLoadTrend, loadUpc , setTrendQuery, trendQuery, movieDbUpcomming, moviePopular ,loadPopular}= useContext(ContextMovie)
-  return {movieDbTrend, loadTrend, setLoadTrend, loadUpc, setTrendQuery, trendQuery, movieDbUpcomming, moviePopular ,loadPopular}
+  const {movieDbTrend, loadTrend, setLoadTrend, loadUpc , setTrendQuery, trendQuery, movieDbUpcomming, moviePopular ,loadPopular, API_KEY}= useContext(ContextMovie)
+  return {movieDbTrend, loadTrend, setLoadTrend, loadUpc, setTrendQuery, trendQuery, movieDbUpcomming, moviePopular ,loadPopular, API_KEY}
 }
 export {routesList, ContextMovieProvided, useMovieContext}
 

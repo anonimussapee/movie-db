@@ -1,4 +1,4 @@
-import {  NavLink } from 'react-router-dom'
+import {  NavLink, useNavigate } from 'react-router-dom'
 import { routesList } from '../Context'
 import { useState } from 'react'
 import {Bars3Icon, BellIcon, MagnifyingGlassIcon, UserCircleIcon} from '@heroicons/react/20/solid'
@@ -8,6 +8,7 @@ import themoviedb from '../../assets/Tmdblogo.png'
 const NavBar = () => {
   const listRendered = {}
 
+  const navigate = useNavigate()
   const [openBar, setOpenBar] = useState (false)
 
   return (
@@ -19,7 +20,7 @@ const NavBar = () => {
       </ul>
       <ul  className='flex gap-5 h-[inherit] items-center '>
         <li>
-          <img src={themoviedb} alt="The moviedb logo" className='h-[40px] mr-2' />
+          <img src={themoviedb} alt="The moviedb logo" className='h-[40px] mr-2' onClick={()=>navigate('/')} />
         </li>
         <li>
           <BellIcon className='w-6'/>
