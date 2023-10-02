@@ -3,7 +3,7 @@ import { DevicePhoneMobileIcon, EnvelopeIcon,  GlobeAmericasIcon, PhoneIcon } fr
 const Footer = () => {
 
   return (
-    <footer className='flex flex-col gap-6 w-[100%] h-[600px] bg-[#144552] p-10 text-[17px] text-white '>
+    <footer className='flex flex-col gap-6 w-[100%] h-[600px] bg-[#144552] p-6 text-[16px] text-white '>
       <p>&#169; JCDEVS</p>
       <a className='underline-offset-4 underline' href="https://www.jcdevs.net/" target='_blank'><GlobeAmericasIcon className='w-10 h-10 inline'/>Visita mi página web actual</a>
       <address>🇪🇨 Otavalo - Ecuador </address>
