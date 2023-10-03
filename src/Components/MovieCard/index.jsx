@@ -23,12 +23,13 @@ const MovieCard = ({movie, dateColor}) => {
     console.log(path)
     navigate(path) 
   } 
+  
 
   return (
     <article className='MovieCard flex flex-col gap-5 '>
     <div className='w-[160px] h-[220px] relative '>
       <img src={`https://image.tmdb.org/t/p/w300${movie?.poster_path}`} alt={movie?.title} className='rounded-lg w-[160px] h-[220px]' onClick={navigateMoviePage}/>                
-      <span className='border-[2px] text-white font-extrabold border-[#144552] bg-[#26dee1] w-14 h-11 rounded-full absolute -bottom-3 left-2 flex justify-center items-center'>{(movie?.vote_average * 10).toFixed(0)}%</span>
+      <span className='border-[2px] text-white font-extrabold border-[#144552] bg-[#26dee1] w-12 h-12 rounded-full absolute -bottom-3 left-2 flex justify-center items-center'>{(movie?.vote_average * 10).toFixed(0)}%</span>
     </div>
     <div >
       <h2 className='font-extrabold line-clamp-2 cursor-pointer hover:text-[#26dee1]'  onClick={navigateMoviePage}>{movie?.title}</h2>

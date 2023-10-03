@@ -56,7 +56,7 @@ const MovieData = () => {
       fetch(url, options)
         .then(res => res.json())
         .then(json => {
-          console.log(json)
+          // console.log(json)
           setMovieFinded(json)  
           setLoadFinded(true)
 
@@ -68,6 +68,7 @@ const MovieData = () => {
           .then(video => {            
             setMovieTrailer(video)
             setLoadTrailer(true)
+            // console.log('movie trailer',video)
           })
           .catch(errorTrailer => console.error('error:' + errorTrailer));
 
@@ -99,7 +100,7 @@ const MovieData = () => {
             <p className='font-bold line-heigth-1'>Puntuación de usuario</p> 
           </div>
           { 
-            loadTrailer &&   <a href={`https://www.youtube.com/watch?v=${movieTrailer?.results[0]?.key}`} target='_blank' ><PlayIcon className='w-6 h-8 inline'/>Reproducir trailer</a>
+            loadTrailer &&   <a href={`https://www.youtube.com/watch?v=${movieTrailer?.results[0]?.key}`} target='_blank' ><PlayIcon className='w-6 h-8 inline'/>Ir al trailer</a>
           }
         </div>
       </div>
@@ -117,6 +118,17 @@ const MovieData = () => {
         <h3 className='font-semibold text-[20px]'>Resumen</h3> 
         <p>{movieFinded?.overview}</p>
       </div>
+      <ContainerScrollX>
+        {loadTrailer && movieTrailer?.results?.map((trailer, index )=>{
+          if(index < 5){
+            return (
+              <iframe key={trailer?.id} className='w-full min-w-[300px] h-[450px]'  src={`https://www.youtube.com/embed/${trailer?.key}` }title="YouTube video player"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+            )
+          }
+        })}
+      </ContainerScrollX>
+
+
     </LayoutW90>
     </>
   )
